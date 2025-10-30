@@ -4,7 +4,7 @@ from colorama import init, Fore
 init(autoreset=True)
 
 def load_data():
-    df = pd.read_csv('imdb_top_1000.csv')
+    df = pd.read_csv("C:/Shreyas/CodingalProjects/Ai/Classwork/imdb_top_1000.csv")
     df['combo'] = df['Genre'].fillna('') + ' ' + df['Overview'].fillna('')
     return df
 
