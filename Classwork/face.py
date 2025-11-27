@@ -27,7 +27,7 @@ def apply_color_filter(image, filter_type):
     return filtered_image
 
 
-image_path = "example.jpg"  
+image_path = "C:\\Shreyas\\CodingalProjects\\Ai\\Classwork\\photo.jpg"  
 image = cv2.imread(image_path)
 
 if image is None:
