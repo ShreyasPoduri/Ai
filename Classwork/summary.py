@@ -58,3 +58,4 @@ if __name__ == "__main__":
     if summary:
         print(Fore.GREEN + "\n✨ Summary:")
         print(Fore.CYAN + summary)
+        
