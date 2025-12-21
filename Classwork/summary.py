@@ -1,23 +1,25 @@
 import requests
-from config import HF_API_KEY   
+from config import HF_API_KEY
 from colorama import Fore, Style, init
 
 init(autoreset=True)
 
-DEFAULT_MODEL = "facebook/bart-large-cnn"   
+DEFAULT_MODEL = "facebook/bart-large-cnn"
 
 def build_api_url(model_name):
-    return f"https://api-inference.huggingface.co/models/{model_name}"
+    # Updated endpoint (required by newer HF API)
+    return f"https://router.huggingface.co/hf-inference/models/{model_name}"
 
 def query(payload, model_name=DEFAULT_MODEL):
     api_url = build_api_url(model_name)
     headers = {
-        "Authorization": f"Bearer {HF_API_KEY}"   
+        "Authorization": f"Bearer {HF_API_KEY}",
+        "Content-Type": "application/json"
     }
-    response = requests.post(api_url, headers=headers, json=payload)  
+    response = requests.post(api_url, headers=headers, json=payload)
     return response.json()
 
-def summarize_text(text, min_length, max_length, model_name=DEFAULT_MODEL):  
+def summarize_text(text, min_length, max_length, model_name=DEFAULT_MODEL):
     payload = {
         "inputs": text,
         "parameters": {
@@ -26,14 +28,14 @@ def summarize_text(text, min_length, max_length, model_name=DEFAULT_MODEL):
         }
     }
 
-    print(Fore.BLUE + Style.BRIGHT + f"\n🔍 Performing AI Summarisation using model: {model_name} ")
+    print(Fore.BLUE + Style.BRIGHT + f"\n🔍 Performing AI Summarisation using model: {model_name}")
 
     result = query(payload, model_name=model_name)
 
     if isinstance(result, list) and result and "summary_text" in result[0]:
         return result[0]["summary_text"]
     else:
-        print(Fore.RED + "Error in summarize response:", result)  
+        print(Fore.RED + "Error in summarize response:", result)
         return None
 
 if __name__ == "__main__":
@@ -52,10 +54,8 @@ if __name__ == "__main__":
     print(Fore.YELLOW + "Enter maximum summary length:")
     max_len = int(input("Max length: "))
 
-    # Perform summarization
     summary = summarize_text(text_to_summarize, min_len, max_len, model_choice)
 
     if summary:
         print(Fore.GREEN + "\n✨ Summary:")
         print(Fore.CYAN + summary)
-        
