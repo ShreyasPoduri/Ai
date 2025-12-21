@@ -41,6 +41,13 @@ def summarize_text(text, min_length, max_length, model_name=DEFAULT_MODEL):
 if __name__ == "__main__":
     print(Fore.YELLOW + Style.BRIGHT + "👏 Hi there! What's your name?")
     user_name = input("Your name: ").strip() or "User"
+    
+    print(Fore.YELLOW + "\nEnter minimum summary length:")
+    min_len = int(input("Min length: "))
+
+    print(Fore.YELLOW + "Enter maximum summary length:")
+    max_len = int(input("Max length: "))
+
 
     print(Fore.GREEN + f"Welcome, {user_name}! Let's give your text some AI magic!")
     model_choice = input("Model name (leave blank for default): ").strip() or DEFAULT_MODEL
@@ -48,12 +55,7 @@ if __name__ == "__main__":
     print(Fore.YELLOW + "\nPaste the text you want to summarize:")
     text_to_summarize = input("\nYour text:\n")
 
-    print(Fore.YELLOW + "\nEnter minimum summary length:")
-    min_len = int(input("Min length: "))
-
-    print(Fore.YELLOW + "Enter maximum summary length:")
-    max_len = int(input("Max length: "))
-
+    
     summary = summarize_text(text_to_summarize, min_len, max_len, model_choice)
 
     if summary:
