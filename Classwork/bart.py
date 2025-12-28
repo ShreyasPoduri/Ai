@@ -4,7 +4,7 @@ from config import HF_API_KEY
 from colorama import Fore, Style, init
 
 init(autoreset=True)
-
+r = print("worked")
 f= Fore
 s = Style
 
