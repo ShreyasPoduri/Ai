@@ -22,4 +22,4 @@ def generate_image_from_text(promt:str)-> Image.Image:
         else:
             raise Exception('The responce is not an image, It might me an error message.')
     except :
-    
+        print("hu")
