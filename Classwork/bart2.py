@@ -1,7 +1,16 @@
 
 import requests
 import time
-from config import HF_API_KEY
+###############secrets handling##############
+import os
+#from config import HF_API_KEY
+from dotenv import load_dotenv
+# Load variables from .env into environment
+load_dotenv()
+HF_API_KEY = os.getenv("HF_API_KEY")
+if not HF_API_KEY:
+    raise RuntimeError("HF_API_KEY not set")
+###############secrets handling#############
 from colorama import Fore, Style, init
 
 init(autoreset=True)

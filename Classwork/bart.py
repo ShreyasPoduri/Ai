@@ -1,13 +1,23 @@
 import requests
 import time
-from config import HF_API_KEY
+###############secrets handling##############
+import os
+#from config import HF_API_KEY
+from dotenv import load_dotenv
+# Load variables from .env into environment
+load_dotenv()
+HF_API_KEY = os.getenv("HF_API_KEY")
+if not HF_API_KEY:
+    raise RuntimeError("HF_API_KEY not set")
+###############secrets handling#############
+#from config import HF_API_KEY
 from colorama import Fore, Style, init
 
 init(autoreset=True)
-r = print("worked")
+
+
 f= Fore
 s = Style
-
 default_model = "facebook/bart-large-cnn"
 
 def build_api_url(model_name):
@@ -17,7 +27,8 @@ def query(payload, model_name):
     url = build_api_url(model_name)
 
     headers = {
-        "Authorization" : f"Bearer" {HF_API_KEY},
+       # "Authorization" : f"Bearer" {HF_API_KEY},
+       "Authorization": f"Bearer {HF_API_KEY}",
         "Content-Type"  : "application/json"
 
     }
@@ -26,7 +37,7 @@ def query(payload, model_name):
         response = requests.post(url, headers=headers, json=payload, timeout=60)
     except requests.exceptions.RequestException as e:
             
-            print(f.RED + "Network error: " e)
+            print(f.RED + "Network error: " + str(e))
             return None
     if response.status_code == 200:
 
