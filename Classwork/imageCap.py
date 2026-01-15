@@ -38,9 +38,51 @@ def get_basic_caption(image, model = "nlpconnect/vit-gpt2-image-captioning"):
     if isinstance(result,dict) and "error" in result:
         return f"[Error] {result['error']}"
     
-    caption = result[0].get("gereated text", "No caption generated.")
+    caption = result[0].get("generated text", "No caption generated.")
     return caption
 
+
+def generate_text(prompt, model = "gpt2", max_new_token = 60):
+    print(f"{Fore.CYAN}??????? Generate text with prompt{prompt} ")
+    api_url = f"https://api-inference.huggingface.co/models/{model}"
+    payload = {"inputs":prompt,"parameters":{"max_new_tokens": max_new_token}} 
+    text_bytes = query_hf_api(api_url, payload=payload)
+    try:
+        result = json.loads(text_bytes.decode("utf-8"))
+
+    except Exception as e:
+        raise Exception("Failed to decode text generation responce.")
+    if isinstance(result, dict) and "error" in result:
+        raise Exception(result["error"])
+    
+    generated = result[0].get("generate_text","")
+    return generated
+
+def truncate_text(text, word_limit):
+    print(f""" {Style.BRIGHT}
+          {Fore.GREEN}====================== Image-to-Text Conversation==============================
+          Select output type:
+          1. Caption(5 words)
+          2. Description(30 words)
+          3.Summary(50 words)
+          4.Exit
+          ============================================================================================
+          """)
+
+def main():a
+    image_path = input(f"{Fore.BLUE}Enter a pth of the image fro text generation(eg., test.jpg):{Style.RESET_ALL}")
+    if not os.path.exists(image_path):
+        print(f"{Fore.RED}❌ The file '{image_path} does not exist")
+        return
+    try: 
+        image = Image.open(image_path)
+
+    except Exception as e : 
+        print(F"{Fore.RED}❌ Failed to open image:{e}")
+        return
+    
+    basic_caption = get_basic_caption(image)
+    print(F"{Fore.YELLOW}???")
 
             
 
